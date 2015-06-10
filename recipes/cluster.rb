@@ -31,5 +31,8 @@
 rabbitmq_layer = node['rabbitmq']['opsworks']['layer_name']
 
 instances = node[:opsworks][:layers][rabbitmq_layer][:instances]
-rabbitmq_cluster_nodes = instances.map{ |name, attrs| "rabbit@#{name}" }
-node.set['rabbitmq']['cluster_disk_nodes'] = rabbitmq_cluster_nodes
+rabbitmq_cluster_nodes = instances.map{ |name, attrs| { :name => "rabbit@#{name}" } }
+node.set['rabbitmq']['clustering']['use_auto_clustering'] = true
+node.set['rabbitmq']['cluster'] = true
+node.set['rabbitmq']['clustering']['cluster_nodes'] = rabbitmq_cluster_nodes
+Chef::Log.info("cluster.rb: cluster: #{rabbitmq_layer} with  #{node['rabbitmq']['clustering']['cluster_nodes']}")
