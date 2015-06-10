@@ -31,7 +31,7 @@
 rabbitmq_layer = node['rabbitmq']['opsworks']['layer_name']
 
 instances = node[:opsworks][:layers][rabbitmq_layer][:instances]
-rabbitmq_cluster_nodes = instances.map{ |name, attrs| { :name => "rabbit@#{name}" } }
+rabbitmq_cluster_nodes = instances.map{ |name, attrs| { :name => "rabbit@#{name}", :type => 'disc' } }
 node.set['rabbitmq']['cluster'] = true
 node.set['rabbitmq']['clustering']['cluster_nodes'] = rabbitmq_cluster_nodes
 Chef::Log.info("cluster.rb: cluster: #{rabbitmq_layer} with  #{node['rabbitmq']['clustering']['cluster_nodes']}")
