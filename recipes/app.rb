@@ -1,6 +1,6 @@
 layer = node['rabbitmq']['opsworks']['layer_name']
 layerId = node[:opsworks][:layers][layer][:id]
-node[:opsworks][:stack]['elb-load-balancers'].each do |i,elb|
+node[:opsworks][:stack]['elb-load-balancers'].each do |elb|
   if elb[:layer_id] == layerId
     Chef::Log.info("elb for #{layer} found  with dns: #{elb[:dns_name]}.")
     node[:deploy].each do |application, deploy|
